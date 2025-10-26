@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARAVINTHASAMY C - Portfolio</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      /* This section defines reusable colors for the website.
+      Using variables makes it easy to change the color scheme later.
+    */
+      :root {
+        --primary-color: #007bff;
+        --secondary-color: #00d4ff;
+        --dark-color: #000428;
+        --light-color: #f8f9fa;
+        --text-color: #333;
+      }
+
+      /* Universal selector '*' applies these styles to all elements.
+      This is a basic reset to remove default browser margins and paddings.
+      'box-sizing: border-box' makes layout calculations easier.
+    */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /* This makes the page jump to sections smoothly when a nav link is clicked. */
+        scroll-behavior: smooth;
+      }
+
+      /* Basic styling for the entire body of the page */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--light-color);
+      }
+
+      /* A container class to center content and set a maximum width.
+      This helps in making the website look good on large screens.
+    */
+      .container {
+        max-width: 1140px;
+        margin: 0 auto; /* 'auto' on left/right centers the container */
+        padding: 0 20px; /* 20px space on the left and right */
+      }
+
+      /* --- Navigation Bar Styling --- */
+      .navbar {
+        position: fixed; /* Keeps the navbar at the top when scrolling */
+        top: 0;
+        width: 100%;
+        background: rgba(0, 4, 40, 0.9);
+        padding: 1rem 0;
+        z-index: 1000; /* Ensures the navbar is above other content */
+      }
+
+      .navbar-container {
+        display: flex; /* Arranges items in a row */
+        justify-content: space-between; /* Pushes brand to the left and nav links to the right */
+        align-items: center; /* Vertically aligns items in the center */
+        width: 100%;
+      }
+
+      .navbar-brand {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none; /* Removes underline from the link */
+      }
+
+      .navbar-nav {
+        display: flex; /* Arranges nav items in a row */
+        list-style: none; /* Removes bullet points from the list */
+      }
+
+      .nav-link {
+        color: #fff;
+        margin: 0 20px; /* Space between nav links */
+        text-decoration: none;
+        padding: 5px 0;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      /* Hamburger menu button - hidden on desktop */
+      .navbar-toggler {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      /* The lines of the hamburger icon */
+      .navbar-toggler-icon {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        margin: 5px 0;
+      }
+
+      /* --- Hero (Home) Section Styling --- */
+      .hero {
+        min-height: 100vh; /* Makes the section cover the full screen height */
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        padding: 100px 0 50px;
+      }
+
+      .hero-content {
+        max-width: 1000px;
+        padding: 2rem;
+      }
+
+      .profile-img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%; /* Makes the image circular */
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        object-fit: cover; /* Ensures the image covers the area without distortion */
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        margin-bottom: 1.5rem;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero .subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      /* Corrected Video Container Styling for Responsive IFRAME */
+      .video-container {
+        margin: 2rem auto;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        max-width: 800px;
+        background-color: #000;
+
+        /* REQUIRED for responsive iframe trick: */
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio (9/16 * 100%) */
+        height: 0;
+
+        /* Hiding the video by default as requested */
+        display: none;
+      }
+
+      /* Styles for the embedded YouTube iframe */
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* Shows the video container when the class is added by JavaScript */
+      .video-container.visible {
+        display: block;
+      }
+
+      /* --- Note: The following video-specific CSS is no longer needed since you are using an iframe ---
+      .video-container video {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      */
+
+      .cta-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap; /* Allows buttons to wrap to the next line on small screens */
+        gap: 1rem; /* Space between buttons */
+      }
+
+      .btn {
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease; /* Added transition for hover effect */
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: white;
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-3px);
+      }
+
+      /* --- General Styling for all Sections --- */
+      .section {
+        padding: 80px 0;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 4rem;
+        color: var(--text-color);
+        position: relative;
+      }
+
+      /* The small line under the section title */
+      .section-title::after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        height: 4px;
+        background: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%); /* Centers the line */
+        border-radius: 2px;
+      }
+
+      /* --- Bio Section Styling --- */
+      .bio-info {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        font-size: 1.1rem;
+      }
+
+      .info-title {
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        color: var(--dark-color);
+      }
+
+      .contact-details {
+        list-style: none;
+        margin: 1.5rem 0;
+        padding: 0;
+      }
+
+      .contact-details li {
+        margin-bottom: 1rem;
+        display: flex; /* Ensure icons and text align */
+        align-items: baseline;
+      }
+
+      .contact-details i {
+        color: var(--primary-color);
+        margin-right: 1rem; /* Space between icon and text */
+        font-size: 1.2rem;
+      }
+
+      .social-links {
+        display: flex;
+        margin-top: 2rem;
+        gap: 15px;
+      }
+
+      .social-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .social-btn:hover {
+        transform: translateY(-5px) scale(1.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .social-btn.github {
+        background: #333;
+      }
+      .social-btn.linkedin {
+        background: #0077b5;
+      }
+      .social-btn.email {
+        background: #ea4335;
+      }
+
+      /* --- Projects & Skills Section Styling --- */
+      .projects-section,
+      .contact-section {
+        background: #fff;
+      }
+
+      .grid-container {
+        display: grid;
+        /* Creates responsive columns. They will be at least 300px wide. */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card,
+      .skill-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added transition */
+      }
+
+      .project-card:hover,
+      .skill-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .project-title {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+
+      .project-description {
+        color: #555;
+        margin-bottom: 1.5rem;
+      }
+
+      .project-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .project-links a:hover {
+        background: var(--secondary-color);
+      }
+
+      .skill-card {
+        text-align: center;
+      }
+
+      .skill-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .skill-card h4 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      /* --- Contact Section Styling --- */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two equal columns */
+        gap: 2rem;
+      }
+
+      .contact-form-container,
+      .contact-info-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-family: inherit;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+      }
+
+      .contact-info-container p {
+        margin-bottom: 1.5rem;
+      }
+
+      /* --- Footer Styling --- */
+      .footer {
+        background: var(--dark-color);
+        color: white;
+        text-align: center;
+        padding: 2rem 0;
+      }
+
+      /* --- Responsive Design using Media Queries --- 
+      These styles will apply only when the screen width is 992px or less.
+    */
+      @media (max-width: 992px) {
+        .contact-grid {
+          grid-template-columns: 1fr; /* Stacks the contact form and info vertically */
+        }
+      }
+
+      /* These styles will apply only when the screen width is 768px or less (for mobile phones) */
+      @media (max-width: 768px) {
+        .profile-img {
+          width: 180px;
+          height: 180px;
+        }
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+        .navbar-nav {
+          display: none; /* Hide the nav links by default */
+          flex-direction: column; /* Stack the nav links vertically */
+          position: absolute;
+          top: 75px; /* Position below the navbar */
+          left: 0;
+          width: 100%;
+          background: rgba(0, 4, 40, 0.98);
+          padding: 1rem 0;
+        }
+
+        /* This class will be added by JavaScript to show the menu */
+        .navbar-nav.active {
+          display: flex;
+        }
+
+        .nav-link {
+          margin: 10px 0;
+          text-align: center;
+        }
+
+        /* Show the hamburger button on mobile */
+        .navbar-toggler {
+          display: block;
+        }
+
+        /* Center social links on mobile */
+        .social-links {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="container navbar-container">
+        <a class="navbar-brand" href="#home">ARAVINTHASAMY C</a>
+
+        <button
+          class="navbar-toggler"
+          id="navbar-toggler"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <ul class="navbar-nav" id="navbarNav">
+          <li><a class="nav-link" href="#home">Home</a></li>
+          <li><a class="nav-link" href="#bio">Bio</a></li>
+          <li><a class="nav-link" href="#projects">Projects</a></li>
+          <li><a class="nav-link" href="#skills">Skills</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <img
+          src="Formal.jpg"
+          alt="Aravinthasamy C"
+          class="profile-img"
+        />
+
+        <h1>I'm ARAVINTHASAMY C</h1>
+
+        <p class="subtitle">
+          MCA Student | Frontend Developer | Fitness Enthusiast
+        </p>
+
+        <div class="video-container" id="video-container-target">
+          <iframe
+            id="intro-video"
+            width="100%"
+            height="100%"
+         width="560" height="315" src="https://www.youtube.com/embed/DrbGcRZfW9Y?si=hUJfCFGB8R-JEuph" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>"
+            title="Video Introduction - Aravinthasamy C"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="cta-buttons">
+          <a
+            href="#video-container-target"
+            id="play-intro-btn"
+            class="btn btn-primary"
+          >
+            <i class="fas fa-video"></i> Watch My Intro Video
+          </a>
+          <a href="#projects" class="btn btn-outline">
+            <i class="fas fa-code"></i> My Projects
+          </a>
+          <a href="Aravinthasamy_Resume.pdf" download class="btn btn-outline">
+            <i class="fas fa-download"></i> My Resume
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="bio" class="section">
+      <div class="container">
+        <h2 class="section-title">Bio-Data</h2>
+        <div class="bio-info">
+          <h3 class="info-title">Personal Information</h3>
+          <p>
+            I’m Aravinthasamy C, pursuing my Master of Computer Applications
+            (MCA). I’m passionate about web development and cloud technologies.
+            I’ve completed the basics of Cloud Computing and also finished a
+            Prompt Engineering course, which helped me understand how to use AI
+            tools effectively for development and creativity. My goal is to
+            become a skilled MERN Full Stack Developer with strong knowledge in
+            both development and AI integration. Outside academics, I love gym
+            workouts, cricket, traveling, and music, which keep me motivated and
+            focused.
+          </p>
+          <ul class="contact-details">
+            <li><i class="fas fa-phone"></i>+91 80989 88252</li>
+            <li><i class="fas fa-envelope"></i>aravinthasamyc@gmail.com</li>
+            <li>
+              <i class="fas fa-map-marker-alt"></i>Theni, Tamil Nadu, India
+            </li>
+          </ul>
+          <div class="social-links">
+            <a
+              href="https://github.com/Aravinth-aarav"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-btn github"
+              aria-label="GitHub Profile"
+              ><i class="fab fa-github"></i
+            ></a>
+            <a
+              href="https://www.linkedin.com/in/aravinthasamyc"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-btn linkedin"
+              aria-label="LinkedIn Profile"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a
+              href="mailto:aravinthasamyc@gmail.com"
+              class="social-btn email"
+              aria-label="Send an Email"
+              ><i class="fas fa-envelope"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section projects-section">
+      <div class="container">
+        <h2 class="section-title">My Projects</h2>
+        <div class="grid-container">
+          <div class="project-card">
+            <h3 class="project-title">
+              <i class="fas fa-shopping-cart"></i> E-Commerce Website
+            </h3>
+            <p class="project-description">
+              A comprehensive e-commerce platform for electronics with Admin,
+              Seller, and User modules.
+            </p>
+            <div class="project-links">
+              <a
+                href="https://aravinth-aarav.github.io/E-Commerce-Electronics-Website/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-github"></i> Live Demo
+              </a>
+            </div>
+          </div>
+          <div class="project-card">
+            <h3 class="project-title">
+              <i class="fas fa-ghost"></i> PacMen Exercise
+            </h3>
+            <p class="project-description">
+              An interactive web application featuring animated PacMan
+              characters that move across the screen.
+            </p>
+            <div class="project-links">
+              <a
+                href="https://aravinth-aarav.github.io/Pacman-/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-github"></i> Live Demo
+              </a>
+            </div>
+          </div>
+          <div class="project-card">
+            <h3 class="project-title">
+              <i class="fas fa-id-card"></i> Personal Portfolio
+            </h3>
+            <p class="project-description">
+              A responsive personal portfolio website built to showcase my
+              skills, projects, and professional journey.
+            </p>
+            <div class="project-links">
+              <a
+                href="http://aravinth-aarav.github.io/PortFolio-/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-github"></i> Live Demo
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <h2 class="section-title">My Skills</h2>
+        <div class="grid-container">
+          <div class="skill-card">
+            <i class="fab fa-html5 skill-icon"></i>
+            <h4>Web Technologies</h4>
+            <p>HTML5, CSS3, JavaScript</p>
+          </div>
+          <div class="skill-card">
+            <i class="fab fa-python skill-icon"></i>
+            <h4>Programming</h4>
+            <p>Python (Basic), Java (Basic)</p>
+          </div>
+          <div class="skill-card">
+            <i class="fab fa-git-alt skill-icon"></i>
+            <h4>Tools & Version Control</h4>
+            <p>Git, GitHub, VS Code</p>
+          </div>
+          <div class="skill-card">
+            <i class="fas fa-database skill-icon"></i>
+            <h4>Databases</h4>
+            <p>Basic SQL Knowledge</p>
+          </div>
+          <div class="skill-card">
+            <i class="fas fa-users skill-icon"></i>
+            <h4>Team Collaboration</h4>
+            <p>Effective communication</p>
+          </div>
+          <div class="skill-card">
+            <i class="fas fa-brain skill-icon"></i>
+            <h4>Problem Solving</h4>
+            <p>Critical and analytical thinking</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-grid">
+          <div class="contact-form-container">
+            <h3 class="info-title">Send me a message</h3>
+            <form action="https://formspree.io/f/mvgwqnzw" method="POST">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="_replyto" required />
+              </div>
+              <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-submit">
+                <i class="fas fa-paper-plane"></i> Send Message
+              </button>
+            </form>
+          </div>
+          <div class="contact-info-container">
+            <h3 class="info-title">Let's Connect!</h3>
+            <p>
+              I’m always open to connecting with like-minded professionals and
+              exploring new opportunities.
+            </p>
+            <div class="social-links">
+              <a
+                href="https://github.com/Aravinth-aarav"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-btn github"
+                aria-label="GitHub Profile"
+                ><i class="fab fa-github"></i
+              ></a>
+              <a
+                href="https://linkedin.com/in/aravinthasamy-c"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-btn linkedin"
+                aria-label="LinkedIn Profile"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a
+                href="mailto:aravinthasamyc@gmail.com"
+                class="social-btn email"
+                aria-label="Send an Email"
+                ><i class="fas fa-envelope"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2024 ARAVINTHASAMY C. All rights reserved.</p>
+        <p><small>Built with HTML, CSS & JavaScript</small></p>
+      </div>
+    </footer>
+
+    <script>
+      // This code will run after the whole HTML page has loaded.
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get the hamburger button element by its ID.
+        const navbarToggler = document.getElementById("navbar-toggler");
+        // Get the navigation links list element by its ID.
+        const navbarNav = document.getElementById("navbarNav");
+        // Get the new button, video element, and video container
+        const playIntroBtn = document.getElementById("play-intro-btn");
+        const videoContainer = document.getElementById(
+          "video-container-target"
+        );
+        // We get the iframe element directly, but since we rely on the iframe's 'src' change for autoplay,
+        // we mainly focus on the container visibility and scrolling.
+
+        // --- Mobile nav toggle ---
+        navbarToggler.addEventListener("click", function () {
+          navbarNav.classList.toggle("active");
+        });
+
+        // --- Close mobile nav on link click ---
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            if (navbarNav.classList.contains("active")) {
+              navbarNav.classList.remove("active");
+            }
+          });
+        });
+
+        // --- Video Show and Play Functionality ---
+        if (playIntroBtn && videoContainer) {
+          playIntroBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            // 1. Show the video container
+            videoContainer.classList.add("visible");
+
+            // 2. Scroll smoothly to the video container
+            videoContainer.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+
+            // 3. Since this is an IFRAME, we don't use .play().
+            // Instead, we ensure the 'autoplay=1' parameter is in the iframe's src
+            // to start playback immediately upon being shown. The HTML has been updated for this.
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
